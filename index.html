@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>杭州市景汇中学</title>
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", "微软雅黑", sans-serif;
+        }
+        
+        @font-face {
+            font-family: 'STXINWEI';
+            src: url('./fonts/STXINWEI.TTF') format('truetype');
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        a {
+            text-decoration: none;
+            color: #0066cc;
+        }
+        
+        ul {
+            list-style: none;
+        }
+        
+        .container {
+            width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        /* 头部样式 */
+        header {
+            background: linear-gradient(to right, #1a5fb4, #2d7bc7);
+            color: white;
+            padding: 20px 0;
+        }
+        
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 80px;
+            margin-right: 15px;
+        }
+        
+        .school-name h1 {
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+        
+        .school-name p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .search-box input {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            width: 200px;
+        }
+        
+        .search-box button {
+            padding: 8px 15px;
+            border: none;
+            background: #0c4b9a;
+            color: white;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        
+        .header-banner {
+            background-color: #0c4b9a;
+            padding: 8px 0;
+            margin-top: 15px;
+        }
+        
+        .header-banner marquee {
+            font-size: 16px;
+        }
+        
+        /* 导航栏样式 */
+        nav {
+            background-color: #0c4b9a;
+        }
+        
+        .main-nav {
+            display: flex;
+        }
+        
+        .main-nav li {
+            position: relative;
+        }
+        
+        .main-nav > li > a {
+            display: block;
+            padding: 12px 25px;
+            color: white;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+        
+        .main-nav > li > a:hover, .main-nav > li:hover > a {
+            background-color: #2d7bc7;
+        }
+        
+        .sub-nav {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #2d7bc7;
+            width: 200px;
+            display: none;
+            z-index: 100;
+        }
+        
+        .main-nav li:hover .sub-nav {
+            display: block;
+        }
+        
+        .sub-nav li a {
+            display: block;
+            padding: 10px 15px;
+            color: white;
+            border-bottom: 1px solid #3a8bd6;
+            transition: background-color 0.3s;
+        }
+        
+        .sub-nav li a:hover {
+            background-color: #1a5fb4;
+        }
+        
+        /* 主要内容区域 */
+        .content {
+            display: flex;
+            padding: 20px;
+        }
+        
+        .main-content {
+            flex: 1;
+            margin-right: 20px;
+        }
+        
+        .sidebar {
+            width: 300px;
+        }
+        
+        .section {
+            margin-bottom: 25px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .section-title {
+            background-color: #1a5fb4;
+            color: white;
+            padding: 10px 15px;
+            font-size: 18px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: 8px;
+            font-size: 20px;
+        }
+        
+        .section-content {
+            padding: 15px;
+        }
+        
+        .news-list li {
+            padding: 8px 0;
+            border-bottom: 1px dashed #e0e0e0;
+        }
+        
+        .news-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .news-list a {
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            transition: color 0.3s;
+        }
+        
+        .news-list a:hover {
+            color: #1a5fb4;
+        }
+        
+        .news-date {
+            float: right;
+            color: #999;
+            font-size: 14px;
+        }
+        
+        .image-slider {
+            position: relative;
+            height: 400px; /* 增加高度以便更好地展示图片 */
+            overflow: hidden;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        
+        .slider-container {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            height: 100%;
+        }
+        
+        .slide {
+            min-width: 100%;
+            height: 100%;
+            background-size: contain; /* 修改为contain以确保图片完整显示 */
+            background-repeat: no-repeat; /* 防止图片重复 */
+            background-position: center; /* 居中显示 */
+        }
+        
+        .slider-dots {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+        }
+        
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .dot.active {
+            background-color: white;
+        }
+        
+        .wechat-article {
+            background-color: #f9f9f9;
+            border-left: 4px solid #1a5fb4;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .wechat-article:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .wechat-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .wechat-title a {
+            color: #1a5fb4;
+            transition: color 0.3s;
+        }
+        
+        .wechat-title a:hover {
+            color: #0c4b9a;
+            text-decoration: underline;
+        }
+        
+        .wechat-summary {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+        
+        .wechat-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .qrcode-section {
+            text-align: center;
+            padding: 15px;
+        }
+        
+        .qrcode {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 10px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+        }
+
+        .qrcode-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+        }
+        
+        /* 底部样式 */
+        footer {
+            background-color: #0c4b9a;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+        
+        .footer-links {
+            margin-bottom: 15px;
+        }
+        
+        .footer-links a {
+            color: white;
+            margin: 0 10px;
+        }
+        
+        .footer-info {
+            font-size: 14px;
+            line-height: 1.8;
+        }
+        
+        .footer-info a {
+            color: #E1E8E1;
+        }
+        
+        /* 新增: 修改footer中链接的悬停颜色 */
+        .footer-info a:hover {
+            color: #9BBDAF;
+        }
+        
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 网站头部 -->
+        <header>
+            <div class="header-top">
+                <div class="logo">
+                    <img class="qrcode-logo" src=".\images\JingHuiLogo.png" width="80" height="80" alt="Logo">
+                    <div style="background:#0c4b9a;display:flex;align-items:center;justify-content:center;color:white;font-size:12px;" ></div>
+                    <div class="school-name">
+                        <h1 style="font-family: 'STXINWEI', 'Microsoft YaHei', '微软雅黑', sans-serif;">杭州市景汇中学</h1>
+                        <p style="font-family: 'STXINWEI', 'Microsoft YaHei', '微软雅黑', sans-serif;">HANGZHOU JINGHUI MIDDLE SCHOOL</p>
+                    </div>
+                </div>
+                <div class="search-box">
+                    <input type="text" placeholder="站内搜索...">
+                    <button>搜索</button>
+                </div>
+            </div>
+            <div class="header-banner">
+                <marquee behavior="scroll" direction="left">
+                    欢迎访问杭州市景汇中学"官方"网站！学校秉承"厚德博学，笃行致远"的校训，致力于培养全面发展的新时代人才。
+                </marquee>
+            </div>
+        </header>
+        
+        <!-- 导航菜单 -->
+        <nav>
+            <ul class="main-nav">
+                <li><a href="index.html">首页</a></li>
+                <li>
+                    <a href="#">教学园地</a>
+                    <ul class="sub-nav">
+                        <li><a href="#">特级教师</a></li>
+                        <li><a href="#">教学动态</a></li>
+                        <li><a href="#">硕果累累</a></li>
+                        <li><a href="#">心理辅导</a></li>
+                        <li><a href="#">教师风采</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">德育园地</a>
+                    <ul class="sub-nav">
+                        <li><a href="#">系列活动</a></li>
+                        <li><a href="#">团队风采</a></li>
+                        <li><a href="#">德育案例</a></li>
+                        <li><a href="#">学生社团</a></li>
+                        <li><a href="#">教子有方</a></li>
+                        <li><a href="#">班主任风采</a></li>
+                        <li><a href="#">反邪教专栏</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">教育科研</a>
+                    <ul class="sub-nav">
+                        <li><a href="#">教育科研</a></li>
+                        <li><a href="#">继续教育</a></li>
+                        <li><a href="#">专题探讨</a></li>
+                        <li><a href="#">科研资料</a></li>
+                        <li><a href="#">科研成果</a></li>
+                        <li><a href="#">课题研究</a></li>
+                    </ul>
+                </li>
+                <li><a href="AdmissionInformation.html">招生信息</a></li>
+                <li><a href="#">校园文化</a></li>
+                <li><a href="#">联系我们</a></li>
+            </ul>
+        </nav>
+        
+        <!-- 主要内容区域 -->
+        <div class="content">
+            <!-- 左侧主要内容 -->
+            <div class="main-content">
+                <!-- 图片轮播 -->
+                <div class="section">
+                    <div class="section-title">校园风光</div>
+                    <div class="image-slider">
+                        <div class="slider-container" id="sliderContainer">
+                            <!-- Slides will be generated by JavaScript -->
+                        </div>
+                        <div class="slider-dots" id="sliderDots">
+                            <!-- Dots will be generated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 官微动态 -->
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fab fa-weixin"></i> 官微动态
+                    </div>
+                    <div class="section-content">
+                        <div class="wechat-article">
+                            <div class="wechat-title">
+                                <a href="https://mp.weixin.qq.com/s/cfVGQHXU4vNZo85aVQfjdA" target="_blank">办人民满意教育 | 六载筑梦景汇路 守正创新育新人</a>
+                            </div>
+                            <div class="wechat-summary">“景”代表阳光，景汇中学积极打造高素质教师队伍；“汇”代表智慧，景汇中学积极构建强融通高质课堂。</div>
+                            <div class="wechat-meta">
+                                <span>阅读量: 625</span>
+                                <span>2025-10-29</span>
+                            </div>
+                        </div>
+                        
+                        <div class="wechat-article">
+                            <div class="wechat-title">
+                                <a href="https://mp.weixin.qq.com/s/example2" target="_blank">我校学生在市科技创新大赛中荣获一等奖</a>
+                            </div>
+                            <div class="wechat-summary">在刚刚结束的杭州市青少年科技创新大赛中，我校学生李明同学的作品"智能校园环境监测系统"荣获一等奖，展现了我校学子的创新能力和科学素养。</div>
+                            <div class="wechat-meta">
+                                <span>阅读量: 987</span>
+                                <span>2025-10-12</span>
+                            </div>
+                        </div>
+                        
+                        <div class="wechat-article">
+                            <div class="wechat-title">
+                                <a href="https://mp.weixin.qq.com/s/example3" target="_blank">景汇中学秋季运动会圆满落幕</a>
+                            </div>
+                            <div class="wechat-summary">我校2025年秋季运动会于上周五圆满结束，全校师生积极参与，展现了良好的体育精神和团队协作能力，多项校纪录被刷新。</div>
+                            <div class="wechat-meta">
+                                <span>阅读量: 1543</span>
+                                <span>2025-10-08</span>
+                            </div>
+                        </div>
+                        
+                        <div class="wechat-article">
+                            <div class="wechat-title">
+                                <a href="https://mp.weixin.qq.com/s/example4" target="_blank">我校教师荣获西湖区优秀教育工作者称号</a>
+                            </div>
+                            <div class="wechat-summary">在西湖区教育局组织的优秀教育工作者评选中，我校张老师凭借出色的教学成果和育人业绩，荣获"西湖区优秀教育工作者"称号。</div>
+                            <div class="wechat-meta">
+                                <span>阅读量: 876</span>
+                                <span>2025-09-28</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 新闻动态 -->
+                <div class="section">
+                    <div class="section-title">新闻动态</div>
+                    <div class="section-content">
+                        <ul class="news-list">
+                            <li>
+                                <a href="news_detail.html?id=1">
+                                    <span class="news-date">2025-10-15</span>
+                                    景汇中学开展"传承红色基因"主题教育活动
+                                </a>
+                            </li>
+                            <li>
+                                <a href="news_detail.html?id=2">
+                                    <span class="news-date">2025-10-12</span>
+                                    我校学生在市科技创新大赛中荣获一等奖
+                                </a>
+                            </li>
+                            <li>
+                                <a href="news_detail.html?id=3">
+                                    <span class="news-date">2025-10-08</span>
+                                    景汇中学秋季运动会圆满落幕
+                                </a>
+                            </li>
+                            <li>
+                                <a href="news_detail.html?id=4">
+                                    <span class="news-date">2025-09-28</span>
+                                    我校教师荣获西湖区优秀教育工作者称号
+                                </a>
+                            </li>
+                            <li>
+                                <a href="news_detail.html?id=5">
+                                    <span class="news-date">2025-09-15</span>
+                                    景汇中学2025学年开学典礼隆重举行
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- 教学成果 -->
+                <div class="section">
+                    <div class="section-title">教学成果</div>
+                    <div class="section-content">
+                        <ul class="news-list">
+                            <li>
+                                <a href="achievement_detail.html?id=1">
+                                    <span class="news-date">2025-09-10</span>
+                                    我校中考成绩再创辉煌，优秀率稳步提升
+                                </a>
+                            </li>
+                            <li>
+                                <a href="achievement_detail.html?id=2">
+                                    <span class="news-date">2025-08-25</span>
+                                    景汇中学学生在省级数学竞赛中获佳绩
+                                </a>
+                            </li>
+                            <li>
+                                <a href="achievement_detail.html?id=3">
+                                    <span class="news-date">2025-07-20</span>
+                                    我校教师团队研发的校本课程获市级奖项
+                                </a>
+                            </li>
+                            <li>
+                                <a href="achievement_detail.html?id=4">
+                                    <span class="news-date">2025-06-15</span>
+                                    景汇中学开展跨学科融合教学研讨活动
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 右侧边栏 -->
+            <div class="sidebar">
+                <!-- 微信公众号关注 -->
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fab fa-weixin"></i> 关注官微
+                    </div>
+                    <div class="section-content qrcode-section">
+                        <img class="qrcode" src=".\images\JingHuiGongZhongHao.png" width="510" height="510" alt="微信公众号二维码">
+                        <p>扫描二维码关注杭州市景汇中学官方微信公众号</p>
+                        <p>获取最新校园动态和教育资讯</p>
+                    </div>
+                </div>
+                
+                <!-- 通知公告 -->
+                <div class="section">
+                    <div class="section-title">通知公告</div>
+                    <div class="section-content">
+                        <ul class="news-list">
+                            <li>
+                                <a href="notice_detail.html?id=1">
+                                    <span class="news-date">2025-10-16</span>
+                                    关于2025年秋季学期期中考试安排的通知
+                                </a>
+                            </li>
+                            <li>
+                                <a href="notice_detail.html?id=2">
+                                    <span class="news-date">2025-10-10</span>
+                                    景汇中学家长开放日活动安排
+                                </a>
+                            </li>
+                            <li>
+                                <a href="notice_detail.html?id=3">
+                                    <span class="news-date">2025-09-30</span>
+                                    国庆节放假安排及安全注意事项
+                                </a>
+                            </li>
+                            <li>
+                                <a href="notice_detail.html?id=4">
+                                    <span class="news-date">2025-09-20</span>
+                                    关于校园文化艺术节筹备工作的通知
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- 快速链接 -->
+                <div class="section">
+                    <div class="section-title">快速链接</div>
+                    <div class="section-content">
+                        <ul class="news-list">
+                            <li><a href="about.html">学校简介</a></li>
+                            <li><a href="campus.html">校园风光</a></li>
+                            <li><a href="mailto:principal@jinghui.edu.cn">校长信箱</a></li>
+                            <li><a href="resources.html">教育资源</a></li>
+                            <li><a href="calendar.html">校历安排</a></li>
+                            <li><a href="schedule.html">作息时间</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- 校园风采 -->
+                <div class="section">
+                    <div class="section-title">校园风采</div>
+                    <div class="section-content">
+                        <!-- 校园活动图片占位 -->
+                        <div style="height:150px;background:#f0f0f0;display:flex;align-items:center;justify-content:center;color:#999;margin-bottom:10px;">
+                            校园活动图片
+                        </div>
+                        <p style="text-align:center; color:#666;">景汇中学秋季运动会精彩瞬间</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 网站底部 -->
+        <footer>
+            <div class="footer-links">
+                <a href="about.html">关于我们</a> | 
+                <a href="sitemap.html">网站地图</a> | 
+                <a href="contact.html">联系我们</a> | 
+                <a href="careers.html">招聘信息</a> | 
+                <a href="links.html">友情链接</a>
+            </div>
+            <div class="footer-info">
+                <p>杭州市景汇中学学校地址：西湖区三墩镇联良路8号</p>
+                <p><a href="https://ryokuryuneko.top/" target="_blank">Ryokuryuneko</a> © 2025 All rights Reserved</p>
+            </div>
+        </footer>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sliderContainer = document.getElementById('sliderContainer');
+            const sliderDots = document.getElementById('sliderDots');
+            const slideCount = 13;
+            let currentSlide = 0;
+            
+            // 创建幻灯片和指示点
+            for (let i = 1; i <= slideCount; i++) {
+                // 创建幻灯片
+                const slide = document.createElement('div');
+                slide.className = 'slide';
+                slide.style.backgroundImage = `url('./images/SchoolPhotos/${i}.webp')`;
+                sliderContainer.appendChild(slide);
+                
+                // 创建指示点
+                const dot = document.createElement('div');
+                dot.className = 'dot';
+                dot.dataset.index = i - 1;
+                dot.addEventListener('click', () => goToSlide(i - 1));
+                sliderDots.appendChild(dot);
+            }
+            
+            // 更新指示点状态
+            function updateDots() {
+                const dots = sliderDots.querySelectorAll('.dot');
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentSlide);
+                });
+            }
+            
+            // 跳转到指定幻灯片
+            function goToSlide(index) {
+                currentSlide = index;
+                sliderContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
+                updateDots();
+            }
+            
+            // 下一张幻灯片
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % slideCount;
+                goToSlide(currentSlide);
+            }
+            
+            // 初始化指示点
+            updateDots();
+            
+            // 自动轮播
+            setInterval(nextSlide, 3000);
+        });
+    </script>
+</body>
+</html>
